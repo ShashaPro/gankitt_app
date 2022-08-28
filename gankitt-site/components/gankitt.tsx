@@ -66,7 +66,7 @@ const GanKitt: React.FC = () => {
       
      
         <div className="h-screen flex">
-          <div className="max-w-xl m-auto p-3">
+          <div className="max-w-md m-auto p-2">
             <div className="bg-gray-800 p-6 rounded-md text-white">
               <div className="text-center my-5">
                 <Image src={logo}  height={110} />

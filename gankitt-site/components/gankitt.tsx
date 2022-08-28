@@ -1,44 +1,66 @@
 import React from "react";
+import Form from "./form";
+import Results from "./results";
 
 const GanKitt: React.FC = () => {
+
+    const CHARACTER_LIMIT: number = 32;
    
-    
     const [prompt, setPrompt] = React.useState("");
     const [snippet, setSnippet] = React.useState("");
     const [keywords, setKeywords] = React.useState([]);
+    const [hasResult, setHasResult] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
   
     const apiUrl = `https://s74bg84508.execute-api.us-east-1.amazonaws.com/prod/generate_snippet_and_keywords?prompt=${prompt}`
 
-    // Option I
   
-    // const onSubmit = () => {
-    //   console.log("Submitting: " + prompt);
-    //   fetch(apiUrl)
-    //     .then((res) => res.json())
-    //     .then(onResult);
-    // };
+    const onSubmit = () => {
+      console.log("Submitting: " + prompt);
+      setIsLoading(true);
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(onResult);
+    };
   
-    // const onResult = (data: any) => {
-    //   setSnippet(data.snippet);
-    //   setKeywords(data.keywords);
-    // };
+    const onResult = (data: any) => {
+      setSnippet(data.snippet);
+      setKeywords(data.keywords);
+      setHasResult(true);
+      setIsLoading(false);
+    };
 
-    // console.log(snippet);
-    // console.log(keywords);
-    
+    const onReset = () => {
+        setPrompt("");
+        setHasResult(false);
+        setIsLoading(false);
+      };
+
+    let displayedElement = null;
+
+    if (hasResult) {
+        displayedElement = (
+        <Results 
+          snippet={snippet} 
+          keywords={keywords} 
+          onBack={onReset} 
+          prompt={prompt}/>
+      );
+    } else {
+        displayedElement = (
+        <Form 
+          prompt={prompt} 
+          setPrompt={setPrompt} 
+          onSubmit={onSubmit} 
+          isLoading={isLoading} 
+          characterLimit={CHARACTER_LIMIT} />
+      );
+    }
 
     return (
       <>
-        <h1>Hello</h1> 
-        <p>Tell me what is about and I will generate copy and keywords for you</p>
-        <input 
-           type="text" 
-           placeholder="coffee"
-           value={prompt}
-           onChange={(e) => setPrompt(e.currentTarget.value)}
-        >
-        </input>
-        <button onClick={onSubmit}>Submit</button>
+        <h1>GanKitt!</h1> 
+        {displayedElement}
       </>
      );
 };

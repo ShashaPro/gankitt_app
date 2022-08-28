@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Gankitt2 from '../components/gankitt2'
+import Gankitt from '../components/gankitt'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Generate snippet for your product" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Gankitt2 />
+      <Gankitt />
      
     </div>
   )
